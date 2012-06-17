@@ -1,8 +1,6 @@
 package es.exitae.practicaexitae;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ClientesController {
@@ -11,8 +9,15 @@ public class ClientesController {
 	 * Muestra un listado de discos. 
 	 */
 	public static void listar() {
-		for (Cliente cliente: Cliente.getCollection()) {
-			System.out.println("Cliente: " + cliente.getCodigo());
+		List<Model> clientes = Cliente.getCollection();
+		if (clientes.size() == 0) {
+			System.out.println("No se han encontrado clientes.");
+			return;
+		}
+		
+		for (Model model: clientes) {
+			Cliente cliente = (Cliente) model;
+			System.out.println("Cliente: " + cliente.getCodigo() + " " + cliente.getNombre() + " " + cliente.getApellidos());
 		}
 	}
 	
@@ -22,10 +27,10 @@ public class ClientesController {
 	public static void crear() {		
 		Scanner reader = new Scanner(System.in);
 		Cliente cliente = new Cliente();			
-		System.out.print("Introduzca nombre:");
-		cliente.setNombre(reader.next());			
-		System.out.print("Introduzca apellidos:");
-		cliente.setApellidos(reader.next());		
+		System.out.print("Introduzca nombre: ");
+		cliente.setNombre(reader.nextLine());			
+		System.out.print("Introduzca apellidos: ");		
+		cliente.setApellidos(reader.nextLine());
 		cliente.crear();
 		System.out.println("Su número de cliente es: " + cliente.getCodigo());
 	}
@@ -35,11 +40,14 @@ public class ClientesController {
 	 * @param codigo
 	 */
 	public static void eliminar(int codigo) {		
-		Cliente cliente = Cliente.get(codigo);		
-		if (cliente != null) {		
-			System.out.println(String.format("Cliente %s eliminado", codigo));
-			cliente.eliminar();
-		}		
+		Cliente cliente = (Cliente) Cliente.get(codigo);
+		if (cliente == null) {
+			System.out.println("No se ha encontrado el cliente con código " + codigo);
+			return;
+		}
+		
+		cliente.eliminar();
+		System.out.println(String.format("Cliente %s eliminado", codigo));
 	}
 	
 }

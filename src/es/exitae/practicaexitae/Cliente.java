@@ -1,17 +1,8 @@
 package es.exitae.practicaexitae;
 
-public class Cliente {
-	private int codigo;
+public class Cliente extends Model {	
 	private String nombre;
 	private String apellidos;
-	
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
-	}
-	
-	public int getCodigo() {
-		return this.codigo;
-	}
 	
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
